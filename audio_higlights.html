@@ -1,0 +1,52 @@
+<!-- HTML structure to display music notes -->
+<div id="music-notes">
+    <!-- Transcribed music notes will be dynamically added here -->
+</div>
+
+<script>
+    // Assume transcribedNotes is an array of objects containing music note data
+    // Each object may have properties like 'time' (time in seconds) and 'note' (the musical note)
+    var transcribedNotes = [
+        { time: 0.5, note: 'C4' },
+        { time: 1.5, note: 'D4' },
+        // Add more transcribed notes here...
+    ];
+
+    // Audio element
+    var audio = new Audio('uploads/uploaded_audio.mp3'); // Replace with the correct path
+
+    // Play the audio
+    audio.play();
+
+    // Highlight notes while the audio is playing
+    audio.addEventListener('timeupdate', function() {
+        var currentTime = audio.currentTime;
+        highlightNotes(currentTime);
+    });
+
+    // Function to highlight notes based on the current playback time
+    function highlightNotes(currentTime) {
+        // Clear previous highlights
+        document.querySelectorAll('.highlight').forEach(function(note) {
+            note.classList.remove('highlight');
+        });
+
+        // Find the current note to highlight
+        transcribedNotes.forEach(function(noteData) {
+            if (currentTime >= noteData.time && currentTime < noteData.time + 0.5) {
+                var noteElement = document.getElementById('note_' + noteData.note);
+                if (noteElement) {
+                    noteElement.classList.add('highlight');
+                }
+            }
+        });
+    }
+</script>
+
+<style>
+    /* Add styles for highlighted notes */
+    .highlight {
+        background-color: yellow;
+        /* Add more styles as needed */
+    }
+</style>
